@@ -1,0 +1,19 @@
+.slds-card__footer-action {
+    text-decoration: none;
+    color: #00A1E0;
+}
+
+.slds-card__footer-action:hover {
+    text-decoration: none;
+}
+
+.category-card {
+    width: 18.5%;
+    border-radius: 5px;
+    transition: box-shadow ease 0.5s;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+
+.category-card:hover {
+    box-shadow: none;
+}

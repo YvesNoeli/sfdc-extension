@@ -1,0 +1,144 @@
+.searchbar-component {
+    display: flex;
+    margin-left: 20%;
+}
+
+.searchbar-component > .searchbar-component--select >.searchbar-component--dropdown {
+    appearance: none;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    flex: 1;
+    padding: 0 1em;
+    color: #fff;
+    background-color: #015cb7;
+    cursor: pointer;
+}
+
+.searchbar-component > .searchbar-component--select > .searchbar-component--dropdown::-ms-expand {
+    display: none;
+}
+
+.searchbar-component > .searchbar-component--select {
+    position: relative;
+    display: flex;
+    width: 15em;
+    height: 3em;
+    border-radius: 0.5em 0em 0em 0.5em;
+    overflow: hidden;
+}
+
+.searchbar-component > .searchbar-component--select::after {
+    content: '\25BC';
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.75em;
+    background-color: #07417b;
+    transition: .25s all ease;
+    pointer-events: none;
+}
+
+.searchbar-component > .searchbar-component--dropdown > option {
+    padding: 10px;
+    background: #fff;
+    color: #000;
+}
+
+
+.searchbar-component > .searchbar-component--input {
+    width: 400px;
+    margin-left: -2px;
+    padding-left: 10px;
+}
+
+.searchbar-component > .searchbar-component--input:focus {
+    outline: none;
+}
+
+.searchbar-component > .searchbar-component--btn {
+    font-weight: 600;
+    border-style: none;
+    margin-left: -1px;
+    color: #fff;
+    background: #07417b;
+    border-radius: 0rem 0.5rem 0.5rem 0rem;
+}
+
+/*
+    removed lg-bg-grey inside class
+    <div c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis="" class="steps-container">
+
+    removed lg-bg-white inside class
+    c_homepage_etape_0_bis_mc_homepage_etape_0_bis="" class="">
+
+    removed l-bg l-bg--grey second-grey inside class
+    <div c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis="" class="l-bg l-bg--grey second-grey">
+
+    removed lg-bg-white inside class
+    <div c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis="" class="">
+
+*/
+
+@media screen and (max-width: 667px) {
+    
+    .next-step-section[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] button[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis], .next-step-button[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        font-size: 13px;
+    }
+
+    h2[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        color: #4632ff;
+        font-size: 18px !important;
+        font-family: 'Roboto-Medium' !important;
+        margin-bottom: 30px !important;
+        line-height: 32px !important;
+    }
+
+    .m-title--m[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        font-size: 24px !important;
+        line-height: 42px !important;
+    }
+
+    .m-title[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        font-family: 'Roboto' !important;
+        color: #374649;
+        font-weight: 400!important;
+    }
+
+    .mobile-only[c-mc_flow_mc_flow] {
+        display: none !important;
+    }
+
+    .lead[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        margin-top: 7px !important;
+        margin-bottom: 7px !important;
+        max-width: 15rem !important;
+        margin-inline: 0 !important;
+    }
+
+    /* logo first page */
+    .l-logo[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] img[c-mc_homepage_etape_0_bis_mc_homepage_etape_0_bis] {
+        height: 90px;
+        width: 173px;
+    }
+
+    /* second page elements */
+    .l-logo[c-mc_flow_mc_flow] img[c-mc_flow_mc_flow] {
+        margin-left: -1rem;
+        height: 126px;
+        width: 194px;
+    }
+
+    .l-page__headings__content-fr[c-mc_company_search_mc_company_search] h1[c-mc_company_search_mc_company_search] {
+        font-family: 'Roboto';
+        font-size: 30px;
+        font-weight: normal;
+        margin-bottom: 30px;
+        margin-inline: 1rem;
+    }
+
+    .back[c-mc_screen_selector_mc_screen_selector] {
+        margin-inline: 1rem;
+    }
+}

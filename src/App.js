@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes,Route } from 'react-router-dom';
+import Categories from './routes/Categories';
+import Metadatas from './routes/Metadatas';
+import Error from './routes/Error';
+import Tree from './routes/Tree';
+import SearchResult from './routes/SearchResult';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Routes>
+          <Route path='/' element={<Categories />} />
+          <Route path='/index.html' element={<Categories />} />
+          <Route path='/Metadatas/:categoryName/:categoryOccurencies' element={<Metadatas />} />
+          <Route path='/Tree/:categoryName/:metadataName/:metadataId' element={<Tree />} />
+          <Route path='/SearchResult/:searchValue/:searchType' element={<SearchResult />} />
+          <Route path='/SearchResult/:searchValue' element={<SearchResult />} />
+          <Route path='*' element={<Error />} />
+      </Routes>
   );
 }
 

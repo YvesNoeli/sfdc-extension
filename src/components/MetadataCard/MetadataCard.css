@@ -1,0 +1,53 @@
+.metadata-card {
+    width: 18.5%;
+    border-radius: 5px;
+    transition: box-shadow ease 0.5s;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+
+.metadata-card:hover {
+    box-shadow: none;
+}
+
+.metadata-card > footer > .footer-btn {
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-icon {
+    width: 15px;
+    height: 15px;
+    margin-right: 3px;
+}
+
+.metadata-card > footer {
+    padding-block: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.metadata-card > footer > .view-btn {
+    margin-right: 15px;
+    background-color: #c1e5bb;
+    color: #32A81F;
+    border: 2px solid #32A81F !important;
+}
+
+.metadata-card > footer > .delete-btn {
+    background-color: #FCC4C4;
+    color: #E51515;
+    border: 2px solid #E51515 !important;
+}
+
+.slds-card__footer-action {
+    text-decoration: none;
+}
+
+.slds-card__footer-action:hover {
+    text-decoration: none;
+}

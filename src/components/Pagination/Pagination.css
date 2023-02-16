@@ -1,0 +1,41 @@
+
+.Pagination > .Pagination--ul {
+    margin-bottom: 3rem;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    margin-left: 45px;
+}
+
+.Pagination--ul--liNumber {
+    background: #fff;
+    padding: 7px 13px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-inline: 5px;
+}
+
+.Pagination--ul > .li--active {
+    background-color: #07417b;
+    color: #fff;
+}
+
+.Pagination--ul--liPrev {
+    transform: rotateY(180deg);
+}
+
+.Pagination--ul--liPrev, .Pagination--ul--liNext {
+    background-color: #07417b;
+    padding: 6.5px;
+    border-radius: 5px;
+}
+
+.Pagination--ul--liPrev:hover, .Pagination--ul--liNext:hover, .Pagination--ul--liNumber:hover {
+    cursor: pointer;
+}
+
+.Pagination--ul--liPrev > img, .Pagination--ul--liNext > img {
+    width: 22px;
+    height: 22px;
+}

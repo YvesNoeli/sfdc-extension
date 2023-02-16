@@ -1,0 +1,102 @@
+.tree-comp {
+    margin-left: 2.4rem;
+    padding-left: 2em;
+}
+
+.tree-comp ul{
+    list-style: none;
+    line-height: 2em;
+    margin-block: 18px;
+}
+
+.tree-comp ul summary{
+    list-style: none;
+    cursor: pointer;
+}
+
+.tree-comp ul summary::marker{
+    display: none;
+}
+
+.tree-comp ul summary::-webkit-details-marker{
+    display: none;
+}
+
+.tree-comp ul li {
+    position: relative; 
+}
+
+
+
+.tree-comp ul li::before {
+    position : absolute;
+    left: -10px;
+    top: 0px;
+    border-left: 1px dashed var(--default-grey);
+    border-bottom: 1px dashed var(--default-grey);
+    content:  "";
+    width: 8px;
+    height: 1em;
+}
+
+.tree-comp ul li::after {
+    position : absolute;
+    left: -10px;
+    bottom: 0px;
+    border-left: 1px dashed var(--default-grey);
+    content:  "";
+    width: 2px;
+    height: 100%;
+}
+.tree-comp ul li:last-child::after {
+    display: none;
+}
+
+.tree-comp > ul.tree > li:after, ul.tree > li:before{
+    display: none;
+}
+
+.tree-comp ul summary::before {
+    position: absolute;
+    left: -17px;
+    z-index: 9;
+    top: 0.7em;
+    content: "+";
+    background: #FAF4F4;
+    display: block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #999191;
+    border-radius: 4px;
+    text-align: center;
+    line-height: .65em;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.tree-comp > ul details[open] > summary::before {
+    content: "-";
+}
+
+.tree-comp span {
+    margin-left: .3em;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #fff;
+    border: 2px solid #c9c7c5;
+}
+
+.btn-tree {
+    cursor: pointer;
+    width: 21px;
+    height: 25px;
+    background: transparent;
+    border-style: none;
+    color: var(--default-red);
+}
+
+.slds-spinner_container {
+    background-color: transparent;
+}

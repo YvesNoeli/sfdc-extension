@@ -1,0 +1,28 @@
+a:hover {
+    text-decoration: none;
+}
+
+.dashboard--menu {
+    z-index: 100;
+    position: sticky;
+    top: 0;
+}
+
+.dashboard--banner {
+    margin-top: 35px;
+    padding-inline: 48px;
+}
+
+.dashboard--card--group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-block: 15px;
+    padding-inline: 35px;
+}
+
+.dashboard--card--group article:first-child {
+    height: fit-content !important;
+    margin-top: auto !important;
+}
