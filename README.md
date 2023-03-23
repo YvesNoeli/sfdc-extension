@@ -1,4 +1,4 @@
-# vCard - sfdc extension
+# SFDC - sfdc extension
 
 sfdc extension is a salesforec extension .
 
@@ -16,7 +16,7 @@ Before you begin, ensure you have met the following requirements:
 * [Git](https://git-scm.com/downloads "Download Git") must be installed on your operating system.
 
 
-* [Node](https://git-scm.com/downloads "Download Node") must be installed on your operating system.
+* [Node](https://nodejs.org/en/download "Download Node") must be installed on your operating system.
 
 ## Installing sfdc extension
 
