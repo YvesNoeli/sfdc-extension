@@ -18,24 +18,59 @@ const MetadataCard = (props) => {
                     </div>
                     <div className="slds-media__body">
                         <h2 className="slds-card__header-title">
-                            <Link to={`/Tree/${props.categoryName}/${props.name}/${props.Id}`} className="slds-card__header-link slds-truncate" title="Accounts">
-                                <span>{ props.name }</span>
-                            </Link>
+
+                            { 
+                                (props.categoryName === 'EntityDefinition') ? 
+                        
+                                <Link to={`/Tree/${props.categoryName}/${props.name}/${props.name}`} className="slds-card__header-link slds-truncate" title="Accounts">
+                                    <span>{ props.name }</span>
+                                </Link>
+
+                                :
+
+                                <Link to={`/Tree/${props.categoryName}/${props.name}/${props.Id}`} className="slds-card__header-link slds-truncate" title="Accounts">
+                                    <span>{ props.name }</span>
+                                </Link>
+                            }
+
+                            {
+                                (props.type) ? <span>({props.type})</span> : ''
+                            }
+                            
                         </h2>
                     </div>
                 </header>
             </div>
             <div className="slds-card__body slds-card__body_inner">Click view to see dependancies</div>
-            <footer className="slds-card__footer">
-                <Link to={`/Tree/${props.categoryName}/${props.name}/${props.Id}`} className="view-btn footer-btn slds-card__footer-action" href="#" style={{ fontWeight: "700" }}>
-                    <img src={view} alt="view" className='btn-icon'/>
-                    <p>View</p> 
-                </Link>
-                <button name={props.name} id={props.Id} onClick={props.handleDialog} className="delete-btn footer-btn slds-card__footer-action" href="#" style={{ fontWeight: "700" }}>
-                    <img src={trash} alt="trash" className='btn-icon'/>
-                    <p>Delete</p>
-                </button>
-            </footer>
+            
+
+                {
+                    (props.categoryName === 'EntityDefinition') ? 
+
+                    <footer className="slds-card__footer">
+                        <Link to={`/Tree/${props.categoryName}/${props.name}/${props.name}`} className="view-btn footer-btn slds-card__footer-action" href="#" style={{ fontWeight: "700" }}>
+                            <img src={view} alt="view" className='btn-icon'/>
+                            <p>View</p> 
+                        </Link>
+                    </footer>
+
+                    :
+
+                    <footer className="slds-card__footer">
+                        <Link to={`/Tree/${props.categoryName}/${props.name}/${props.Id}`} className="view-btn footer-btn slds-card__footer-action" href="#" style={{ fontWeight: "700" }}>
+                            <img src={view} alt="view" className='btn-icon'/>
+                            <p>View</p> 
+                        </Link>
+                        <button name={props.name} id={props.Id} onClick={props.handleDialog} className="delete-btn footer-btn slds-card__footer-action" href="#" style={{ fontWeight: "700" }}>
+                            <img src={trash} alt="trash" className='btn-icon'/>
+                            <p>Delete</p>
+                        </button>
+                    </footer>
+
+                }
+
+                
+            
         </article>
   )
 }

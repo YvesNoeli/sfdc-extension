@@ -1,7 +1,24 @@
+function sortMetadata(tabMetadata){
+    let sortTab = tabMetadata.map(elt =>{
+        return elt.metadata;
+    })
+    sortTab.sort();
+    let newTab = sortTab.map(element =>{
+        let index = tabMetadata.findIndex(elt => elt.metadata == element);
+        return{
+            "metadata": element,
+            "Name": tabMetadata[index].Name,
+            "IsSearchable" : tabMetadata[index].IsSearchable
+        }
+    })
+    return newTab;
+}
+
 const metadataTab = [
     {metadata: 'AIApplication', Name: 'DeveloperName',IsSearchable: false},
     {metadata: 'AIApplicationConfig', Name: 'DeveloperName',IsSearchable: false},
     {metadata: 'AnimationRule', Name: 'DeveloperName',IsSearchable: false},
+    {metadata: 'EntityDefinition', Name: 'QualifiedApiName',IsSearchable: false},
     {metadata: 'ApexClass', Name: 'Name',IsSearchable: true},
     {metadata: 'CustomObject', Name: 'DeveloperName',IsSearchable: true},
     {metadata: 'ApexComponent', Name: 'Name',IsSearchable: true},
@@ -82,13 +99,10 @@ const metadataTab = [
     {metadata: 'RestrictionRule', Name: 'DeveloperName',IsSearchable: false},
     {metadata: 'Role', Name: 'DeveloperName',IsSearchable: true},
     {metadata: 'Scontrol', Name: 'DeveloperName',IsSearchable: false},
-
     {metadata: 'StaticResource', Name: 'Name',IsSearchable: true},
-
     {metadata: 'UserCriteria', Name: 'DeveloperName',IsSearchable: false},
     {metadata: 'UserProfileSearchScope', Name: 'DeveloperName',IsSearchable: false},
     {metadata: 'UserProvisioningConfig', Name: 'DeveloperName',IsSearchable: false},
-
     {metadata: 'WebLink', Name: 'Name',IsSearchable: true},
     {metadata: 'WorkflowAlert', Name: 'DeveloperName',IsSearchable: true},
     {metadata: 'WorkflowFieldUpdate', Name: 'Name',IsSearchable: true},
@@ -96,4 +110,6 @@ const metadataTab = [
     {metadata: 'WorkflowRule', Name: 'Name',IsSearchable: true}
 ]
 
-export default metadataTab;
+
+
+export default sortMetadata(metadataTab);

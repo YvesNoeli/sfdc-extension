@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 const CategoryCard = (props) => {
 
     const credentials = getUrlParam();
+    console.log('**************** ' + credentials);
     const [occurence, setOccurence] = useState({});
     
     
     let myName = () => {
         console.log('RENDER :: ', props.name)
     }
+
     useEffect(() => {
         console.log('RENDER :: ', props.name)
         getOccurenceData(props.name,credentials.hostname,credentials.sid)
@@ -38,13 +40,17 @@ const CategoryCard = (props) => {
                     <div className="slds-media__figure">
                         <span className="slds-icon_container slds-icon-standard-account" style={{padding: "5px"}} title="account">
                             <img src={icon} alt="icon" width="25px" />
-                            <span className="slds-assistive-text">{ (props.name) ? props.name : "wait ...." }</span>
+                            <span className="slds-assistive-text">
+                                { (props.name == 'EntityDefinition') ? props.name + '(Standard Objects)' : props.name }
+                            </span>
                         </span>
                     </div>
                     <div className="slds-media__body">
                         <h2 className="slds-card__header-title">
                             <Link to={`/Metadatas/${props.name}/${occurence.value}`} className="slds-card__header-link slds-truncate" title="Accounts">
-                                <span>{ (props.name) ? props.name : "wait ...." }</span>
+                                <span>
+                                    { (props.name == 'EntityDefinition') ? props.name + ' (Standard Objects)' : props.name }
+                                </span>
                             </Link>
                         </h2>
                     </div>

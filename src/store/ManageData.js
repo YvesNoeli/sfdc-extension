@@ -3,6 +3,7 @@ import metadata from '../metadataTab';
 const metadataTab = metadata;
 
 async function restCallout(url, method, instanceHostname, sid, headers = {}){
+    
     let xhr = new XMLHttpRequest();
     url += (url.includes("?") ? "&" : "?") + "cache=" + Math.random();
     xhr.open(method, "https://" + instanceHostname + url, true);
@@ -12,6 +13,7 @@ async function restCallout(url, method, instanceHostname, sid, headers = {}){
     for (let [name, value] of Object.entries(headers)) {
         xhr.setRequestHeader(name, value);
     }
+    
     xhr.responseType = "json";
     // the function called when an XMLHttpRequest transaction completes successfully
     xhr.onload = function() {
@@ -64,14 +66,53 @@ async function getData(restinstanceHostname,sid,categoryName,limit,offset){
         return objDatas;
     }
     let dataField = metadataTab[index].Name;      
-    let resturl = `/services/data/v56.0/tooling/query?q=Select+Id,+${dataField}+From+${categoryName}+limit+${limit}+offset+${offset}`;
-    await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
+
+    let resturl;
+
+    
+
+    if(limit == null && offset == null && categoryName == 'EntityDefinition'){
+
+    
+        resturl = `/services/data/v56.0/tooling/query?q=Select+Id,+${dataField}+From+${categoryName}+where+IsCustomizable=true+order+By+${dataField}`;
+    
+        await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
+            objDatas.Type = dataFromCallOut.entityTypeName ? dataFromCallOut.entityTypeName : categoryName
+            
+            console.log('data from callout ::=====>',dataFromCallOut);
+
+  
+            dataFromCallOut.records.forEach(element => {if(!element[dataField].includes('__c') && !element[dataField].includes('__mdt')){
+                data.push({
+                    "Id" : element.Id,
+                    "Name" : element[dataField],
+                })
+            }});
+
+            console.log('data ::====>',data);
+
+            objDatas.error = false;
+            objDatas.data = data;
+            console.log('objDatas-->', objDatas);
+        })
+        .catch(error => {
+            data.push(error[0]);
+            objDatas.error = true;
+            objDatas.data = data;
+            console.log('objDatas-->', objDatas);
+        });
+
+    }else{
+       resturl = `/services/data/v56.0/tooling/query?q=Select+Id,+${dataField}+From+${categoryName}+order+By+${dataField}+limit+${limit}+offset+${offset}`;
+
+       await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
         objDatas.Type = dataFromCallOut.entityTypeName ? dataFromCallOut.entityTypeName : categoryName
         data =  dataFromCallOut.records.map(element =>{
-            return {
-                "Id" : element.Id,
-                "Name" : element[dataField]
-            } 
+            
+                return {
+                    "Id" : element.Id,
+                    "Name" : element[dataField]
+                }
         });
         objDatas.error = false;
         objDatas.data = data;
@@ -83,32 +124,69 @@ async function getData(restinstanceHostname,sid,categoryName,limit,offset){
         objDatas.data = data;
         console.log('objDatas-->', objDatas);
     });
+    }
+
     return objDatas;               
+
 }
 
 async function getOccurenceData(metadataName, restinstanceHostname, sid){
+    
     const objDatas = {}
-    let resturl = `/services/data/v56.0/tooling/query?q=Select+Count(Id)+Occurence+From+${metadataName}`;
-    await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
-        
-        console.log('dataFromCallOut-->', metadataName, dataFromCallOut);
-        objDatas.error = false;
-        objDatas.data = dataFromCallOut.records[0].Occurence;
-        console.log('objDatas-->', metadataName, objDatas);
-    })
-    .catch(error => {
-        objDatas.error = true;
-        objDatas.data = error[0];
-        console.log('objDatas-->', objDatas);
-    });
+    let resturl
+    if(metadataName == 'EntityDefinition'){
+        let occur = 0;
+        resturl = `/services/data/v56.0/tooling/query?q=Select+Id,+Label+,QualifiedApiName+,DeveloperName+From+EntityDefinition+where+IsCustomizable=true`;
+        await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
+        console.log('dataFromCallOut-->', dataFromCallOut);
+         
+        dataFromCallOut.records.forEach(element => {
+                if(!element.QualifiedApiName.includes('__c') && !element.QualifiedApiName.includes('__mdt')){
+                   occur = occur + 1;
+                }
+            });
+            objDatas.error = false;
+            objDatas.data = occur;
+            console.log('objDatas-->', objDatas);
+            console.log('occur-->', objDatas.data);
+        })
+        .catch(error => {
+            objDatas.error = true;
+            objDatas.data = error[0];
+            console.log('objDatas-->', objDatas);
+        });
+    }else{
+        resturl = `/services/data/v56.0/tooling/query?q=Select+Count(Id)+Occurence+From+${metadataName}`;
+        await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
+            
+            console.log('dataFromCallOut-->', metadataName, dataFromCallOut);
+            objDatas.error = false;
+            objDatas.data = dataFromCallOut.records[0].Occurence;
+            console.log('objDatas-->', metadataName, objDatas);
+        })
+        .catch(error => {
+            objDatas.error = true;
+            objDatas.data = error[0];
+            console.log('objDatas-->', objDatas);
+        });
+    }
+
     return objDatas;
+    
 }
 
-async function getDependencyData(dataId, restinstanceHostname, sid){
+async function getDependencyData(dataId, restinstanceHostname,categoryName, sid){
     let data =[];
     const objDatas = {}
     
     let resturl = `/services/data/v56.0/tooling/query?q=Select+MetadataComponentId,+MetadataComponentName,+MetadataComponentType+From+MetadataComponentDependency+Where+RefMetadataComponentId='${dataId}'`;
+
+    if(categoryName == 'entityDefinition'){
+        resturl = `/services/data/v56.0/tooling/query?q=Select+MetadataComponentId,+RefMetadataComponentId,+MetadataComponentName,+RefMetadataComponentName,+MetadataComponentType,+RefMetadataComponentType+From+MetadataComponentDependency+Where+RefMetadataComponentId='${dataId}'`;
+    }
+
+    
+    
     await restCallout(resturl, 'GET', restinstanceHostname, sid).then(dataFromCallOut=>{
         let occurence = 0
         data =  dataFromCallOut.records.map(element =>{
@@ -270,15 +348,26 @@ async function deleteData(restinstanceHostname, sid, metadataName, dataId){
 
 let getUrlParam = () => {
     
-    const urlParams = new URLSearchParams(window.location.search);
-
-    console.log('### SESSION HOSTNAME => '+urlParams.get('hostname'));
-    console.log('### SESSION ID => '+urlParams.get('id'));
+    let urlParams = new URLSearchParams(window.location.search);
+    let credential = {hostName: null, sid: null};
+    
+    credential.hostName = urlParams.get('hostname');
+    
+    if(urlParams.get('id')){
+        credential.sid = urlParams.get('id');
+        sessionStorage.setItem("credential", JSON.stringify(credential));
+        let newUrl = window.location.origin + window.location.pathname + '?hostname=' + credential.hostName;
+        window.location.replace(newUrl);
+    }else{
+        credential = JSON.parse(sessionStorage.getItem("credential"));
+    }
+    console.log('### SESSION credential => '+credential);
     
     return {
-        hostname: urlParams.get('hostname'),
-        sid: urlParams.get('id')
+        hostname: credential.hostName,
+        sid: credential.sid
     }
+
 }
 
 

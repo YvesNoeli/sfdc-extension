@@ -21,9 +21,12 @@ const Metadatas = () => {
   const [indexOfLastMetadata, setIndexOfLastMetadata] = useState(20);
   const [indexOfFirstMetadata, setIndexOfFirstMetadata] = useState(0);
 
+  const [indexOfFirstEntity, setIndexOfFirstEntity] = useState(0);
+
   /**
    * confirm box
    */
+
   const [confirm, setConfirm] = useState({
     message: "",
     isLoading: false,
@@ -31,14 +34,14 @@ const Metadatas = () => {
 
   const handleConfirmation = (message) => {
 
-    console.log('My error message ===> ',message); 
+    console.log('My error message ===> ', message);
 
     setConfirm({
       message: message,
-      isLoading: true      
+      isLoading: true
     })
 
-    console.log('Loading ===> ',confirm.isLoading); 
+    console.log('Loading ===> ', confirm.isLoading);
 
   }
 
@@ -72,30 +75,30 @@ const Metadatas = () => {
   const handleDialog = (e) => {
     let Id = e.target.id;
     let Name = e.target.name;
-    let trgt  = e.target;
-    if(trgt.tagName == 'IMG' || trgt.tagName == 'P'){
+    let trgt = e.target;
+    if (trgt.tagName == 'IMG' || trgt.tagName == 'P') {
       Id = e.target.parentNode.id;
       Name = e.target.parentNode.name;
     }
     console.log(trgt.tagName);
-    
+
 
     let message = `Are you sure you want to delete ${Name} with Id : ${Id}`;
 
-    console.log("event Id === > " +Id);
-    console.log("event Name === > " +Name);
+    console.log("event Id === > " + Id);
+    console.log("event Name === > " + Name);
     console.log(message);
 
 
     setDialog({
-       message : message,
-       isLoading : true,
-       metadataName : Name,
-       metadataId : Id
+      message: message,
+      isLoading: true,
+      metadataName: Name,
+      metadataId: Id
     })
 
     console.log(dialog.isLoading);
-    
+
 
   }
 
@@ -103,13 +106,30 @@ const Metadatas = () => {
    * Pagination
    */
 
+  //Change entity page
+  const paginateEntity = pageNumber => {
+    let offset = (pageNumber == 1) ? 0 : pageNumber * 20 - 20;
+
+    console.log('OFFSET :: ', offset);
+
+    setIndexOfFirstEntity(offset);
+    setIndexOfLastMetadata(offset + metadatasPerPage);
+
+    console.log('first index ==*=>', indexOfFirstEntity);
+    console.log('last index ==*=>', indexOfLastMetadata);
+
+
+    setCurrentPage(pageNumber);
+  }
+
   //Change page
   const paginate = pageNumber => {
     let offset = (pageNumber == 1) ? 0 : pageNumber * 20 - 20;
 
     console.log('OFFSET :: ', offset);
-    
+
     setIndexOfFirstMetadata(offset);
+    setIndexOfLastMetadata(offset + metadatasPerPage);
 
     console.log('first index ==*=>', indexOfFirstMetadata);
     console.log('last index ==*=>', indexOfLastMetadata);
@@ -139,17 +159,31 @@ const Metadatas = () => {
 
     setLoading(true);
 
-    getData(credentials.hostname, credentials.sid, categoryName, 20, indexOfFirstMetadata)
-      .then(item => {
-        item.data.map(elt => {
+    if (categoryName == 'EntityDefinition') {
+      getData(credentials.hostname, credentials.sid, categoryName, null, null)
+        .then(item => {
+          item.data.map(elt => {
 
-          tab.push(<MetadataCard handleDialog={handleDialog} name={elt.Name} Id={elt.Id} categoryName={categoryName} />);
-          console.log('----> Reload <-----')
+            tab.push(<MetadataCard key={elt.Id} handleDialog={handleDialog} name={elt.Name} Id={elt.Id} categoryName={categoryName} />);
+            console.log('----> Reload <-----')
 
+          })
+          setContent(tab);
+          setLoading(false);
         })
-        setContent(tab);
-        setLoading(false);
-      })
+    } else {
+      getData(credentials.hostname, credentials.sid, categoryName, 20, indexOfFirstMetadata)
+        .then(item => {
+          item.data.map(elt => {
+
+            tab.push(<MetadataCard handleDialog={handleDialog} name={elt.Name} Id={elt.Id} categoryName={categoryName} />);
+            console.log('----> Reload <-----')
+
+          })
+          setContent(tab);
+          setLoading(false);
+        })
+    }
 
   }, [indexOfFirstMetadata]);
 
@@ -158,29 +192,63 @@ const Metadatas = () => {
     <>
       <Dashboard UpName="Category" ProperName={categoryName} />
 
-      <div className='dashboard--card--group'>
+
+
+      {/* <div className='dashboard--card--group'>
         {
-          (loading) ? <Spinner /> : content
+          (loading) ? <Spinner /> : content.slice(indexOfFirstMetadata, indexOfLastMetadata)
         }
 
         {dialog.isLoading && <DialogBox handleConfirmation={handleConfirmation} categoryName={categoryName} abort={abortDelete} message={dialog.message} nameMetadata={dialog.metadataName} id={dialog.metadataId} />}
         {confirm.isLoading && <ConfirmBox message={confirm.message} close={closeConfirmation} />}
 
-      </div>
+      </div> */}
 
       {
 
-        <Pagination
-          elementPerPage={metadatasPerPage}
-          totalElements={categoryOccurencies}
-          currentPage={currentPage}
-          paginate={paginate}
-          paginateNext={paginateNext}
-          paginatePrev={paginatePrev}
-        />
+        (categoryName == 'EntityDefinition') ?
+          <>
+            <div className='dashboard--card--group'>
+              {
+                (loading) ? <Spinner /> : content.slice(indexOfFirstEntity, indexOfLastMetadata)
+              }
+
+              {dialog.isLoading && <DialogBox handleConfirmation={handleConfirmation} categoryName={categoryName} abort={abortDelete} message={dialog.message} nameMetadata={dialog.metadataName} id={dialog.metadataId} />}
+              {confirm.isLoading && <ConfirmBox message={confirm.message} close={closeConfirmation} />}
+
+            </div>
+            <Pagination
+              elementPerPage={metadatasPerPage}
+              totalElements={categoryOccurencies}
+              currentPage={currentPage}
+              paginate={paginateEntity}
+              paginateNext={paginateNext}
+              paginatePrev={paginatePrev}
+            />
+          </>
+          :
+          <>
+            <div className='dashboard--card--group'>
+              {
+                (loading) ? <Spinner /> : content
+              }
+
+              {dialog.isLoading && <DialogBox handleConfirmation={handleConfirmation} categoryName={categoryName} abort={abortDelete} message={dialog.message} nameMetadata={dialog.metadataName} id={dialog.metadataId} />}
+              {confirm.isLoading && <ConfirmBox message={confirm.message} close={closeConfirmation} />}
+
+            </div>
+            <Pagination
+              elementPerPage={metadatasPerPage}
+              totalElements={categoryOccurencies}
+              currentPage={currentPage}
+              paginate={paginate}
+              paginateNext={paginateNext}
+              paginatePrev={paginatePrev}
+            />
+          </>
       }
 
-     
+
 
     </>
   )

@@ -47,7 +47,7 @@ const SearchResult = () => {
           tab.push(<ErrorComp message={item.data[0].message} />)
         }else{
             item.data.map(elt => {
-            tab.push(<MetadataCard name={elt.Name} Id={elt.Id} categoryName={searchType} />);
+            tab.push(<MetadataCard name={elt.Name} Id={elt.Id} categoryName={searchType} type={elt.Type} />);
             console.log('----> search datas <-----', tab);
           })
         }

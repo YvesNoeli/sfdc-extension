@@ -46,7 +46,7 @@ const Branch = (props) => {
                                 setRoll(!roll)
                             }}>
                                 <span>
-                                    {props.name}
+                                    {props.name}{'('+props.type+')'}
                                 </span>
                             </summary>
                             { !(getParentIds().ids.includes(props.id)) ? 

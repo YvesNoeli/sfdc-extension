@@ -22,7 +22,7 @@ const Categories = () => {
     let content = [];
 
     metadataTab.map(mtdt => {
-      content.push(<CategoryCard name={mtdt.metadata} />)
+      content.push(<CategoryCard key={mtdt.metadata} name={mtdt.metadata} />)
     })
 
     setLoading(false);

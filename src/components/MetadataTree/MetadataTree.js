@@ -28,7 +28,7 @@ const MetadataTree = (props) => {
 
         setLoading(true);
 
-        getDependencyData(props.Id,credentials.hostname,credentials.sid).then(
+        getDependencyData(props.Id,credentials.hostname,props.categoryName,credentials.sid).then(
             (elt) => {
                 elt.data.forEach(element => {
                 // if(!parents.includes(element.Id)){
@@ -89,7 +89,7 @@ const MetadataTree = (props) => {
                         {
                             (haschildren) ?
                             dependancies.map(e => 
-                                <Branch BranchClass={metadataClass}  name={e.Name} id={e.Id} parentIds={getParentIds()}/>
+                                <Branch BranchClass={metadataClass} type={e.Type} name={e.Name} id={e.Id} parentIds={getParentIds()}/>
                             )
                             :
                             <li>No dependancies</li>

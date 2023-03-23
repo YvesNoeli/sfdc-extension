@@ -11,7 +11,7 @@ const Tree = () => {
   return (
     <>
       <Dashboard UpName={categoryName} ProperName={metadataName} />
-      <MetadataTree Id={metadataId} parentIds={ids}/>
+      <MetadataTree Id={metadataId} categoryName={categoryName} parentIds={ids}/>
     </>
   )
 }
